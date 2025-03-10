@@ -1,0 +1,160 @@
+1. *Scenario: Tambah Barang*  
+   - *Class/Module:* Main / tambahKeKeranjang  
+   - *Method:* tambahKeKeranjang()  
+   - *Data Input:* Valid item: No. 1, Quantity: 2  
+   - *Expected Result:* return true  
+   - *Actual Result:* return true  
+   - *Status:* ok  
+
+2. *Scenario: Tambah Barang Invalid*  
+   - *Class/Module:* Main / tambahKeKeranjang  
+   - *Method:* tambahKeKeranjang()  
+   - *Data Input:* Invalid item: No. 10, Quantity: 1  
+   - *Expected Result:* return false  
+   - *Actual Result:* return false  
+   - *Status:* ok  
+
+3. *Scenario: Menambahkan Barang yang Sama*  
+   - *Class/Module:* Main / tambahKeKeranjang  
+   - *Method:* tambahKeKeranjang()  
+   - *Data Input:* Tambah item No. 1, Quantity: 2; kemudian tambah item No. 1, Quantity: 3  
+   - *Expected Result:* return true  
+   - *Actual Result:* return true  
+   - *Status:* ok  
+
+4. *Scenario: Input Pilihan Tidak Sesuai (Case 1)*  
+   - *Class/Module:* Main  
+   - *Method:* Input Validasi (Main Loop)  
+   - *Data Input:* Pilihan: 8 (tidak ada di menu)  
+   - *Expected Result:* return false  
+   - *Actual Result:* return false  
+   - *Status:* ok  
+
+5. *Scenario: Input Pilihan Tidak Sesuai (Case 2)*  
+   - *Class/Module:* Main  
+   - *Method:* Input Validasi (Main Loop)  
+   - *Data Input:* Pilihan: -1  
+   - *Expected Result:* return false  
+   - *Actual Result:* return false  
+   - *Status:* ok  
+
+6. *Scenario: Input Pilihan Tidak Sesuai (Case 3)*  
+   - *Class/Module:* Main  
+   - *Method:* Input Validasi (Main Loop)  
+   - *Data Input:* Pilihan: 100 (tidak ada di menu)  
+   - *Expected Result:* return false  
+   - *Actual Result:* return false  
+   - *Status:* ok  
+
+7. *Scenario: Hitung Diskon Lebih dari 3 Item*  
+   - *Class/Module:* Main / hitungDiskon  
+   - *Method:* hitungDiskon()  
+   - *Data Input:* Quantity = 4, Harga = 2000  
+   - *Expected Result:* return true (diskon 10%: 4×2000×10/100 = 800)  
+   - *Actual Result:* return true  
+   - *Status:* ok  
+
+8. *Scenario: Hitung Diskon Lebih dari 5 Item*  
+   - *Class/Module:* Main / hitungDiskon  
+   - *Method:* hitungDiskon()  
+   - *Data Input:* Quantity = 6, Harga = 2000  
+   - *Expected Result:* return true (diskon 15%: 6×2000×15/100 = 1800)  
+   - *Actual Result:* return true  
+   - *Status:* ok  
+
+9. *Scenario: Hitung Diskon 1-3 Item*  
+   - *Class/Module:* Main / hitungDiskon  
+   - *Method:* hitungDiskon()  
+   - *Data Input:* Quantity = 2, Harga = 2000  
+   - *Expected Result:* return true (diskon = 0)  
+   - *Actual Result:* return true  
+   - *Status:* ok  
+
+10. *Scenario: Sorting Barang*  
+    - *Class/Module:* Main / urutkanKeranjang  
+    - *Method:* urutkanKeranjang()  
+    - *Data Input:* Keranjang dengan item: {No.1, Qty 2}, {No.2, Qty 4}  
+    - *Expected Result:* return true (diurutkan descending sehingga item dengan Qty 4 muncul terlebih dahulu)  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+
+11. *Scenario: Bayar dengan Uang Cukup*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* Payment Validation Loop  
+    - *Data Input:* Total Bayar (misal 15400), Input: 15400  
+    - *Expected Result:* return true  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+
+12. *Scenario: Bayar dengan Uang Lebih*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* Payment Validation Loop  
+    - *Data Input:* Total Bayar (misal 15400), Input: 20000  
+    - *Expected Result:* return true  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+
+13. *Scenario: Bayar dengan Uang Kurang*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* Payment Validation Loop  
+    - *Data Input:* Total Bayar (misal 15400), Input: 10000 (kemudian input valid)  
+    - *Expected Result:* return false (pada input pertama), kemudian return true saat input sudah valid  
+    - *Actual Result:* return false, lalu return true  
+    - *Status:* ok  
+
+14. *Scenario: Input Bayar Tidak Sesuai (Case 1)*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* Payment Input Validation  
+    - *Data Input:* Input: nilai non-numeric (simulasi error)  
+    - *Expected Result:* return false  
+    - *Actual Result:* return false  
+    - *Status:* ok  
+
+15. *Scenario: Input Bayar Tidak Sesuai (Case 2)*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* Payment Input Validation  
+    - *Data Input:* Input: string atau karakter (simulasi error)  
+    - *Expected Result:* return false  
+    - *Actual Result:* return false  
+    - *Status:* ok  
+
+16. *Scenario: Input Bayar Tidak Sesuai (Case 3)*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* Payment Input Validation  
+    - *Data Input:* Input: nilai negatif (misal: -5000)  
+    - *Expected Result:* return false  
+    - *Actual Result:* return false  
+    - *Status:* ok  
+
+17. *Scenario: Simpan Struk*  
+    - *Class/Module:* cetakStruk  
+    - *Method:* File Save Operation  
+    - *Data Input:* Setelah pembayaran, struk disimpan dengan nama file menggunakan ID Transaksi  
+    - *Expected Result:* return true  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+
+18. *Scenario: Buka Struk Otomatis*  
+    - *Class/Module:* File I/O (Struk)  
+    - *Method:* File Access Check  
+    - *Data Input:* Verifikasi file "struk_YYYYMMDDHHMMSS.txt" sudah ada dan dapat diakses  
+    - *Expected Result:* return true  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+
+19. *Scenario: Reset Pesanan*  
+    - *Class/Module:* Main / resetKeranjang  
+    - *Method:* resetKeranjang()  
+    - *Data Input:* Input: Pilihan 77  
+    - *Expected Result:* return true  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+
+20. *Scenario: Keluar dari Program*  
+    - *Class/Module:* Main  
+    - *Method:* Main Loop Exit  
+    - *Data Input:* Input: Pilihan 00  
+    - *Expected Result:* return true  
+    - *Actual Result:* return true  
+    - *Status:* ok  
+

@@ -1,0 +1,247 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include <locale.h>
+
+#define MAX_ITEMS 5
+#define MAX_CART 100
+#define STRUK_WIDTH 62
+
+typedef struct {
+    int no;
+    char nama[50];
+    int harga;
+} Barang;
+
+typedef struct {
+    int no;
+    int jumlah;
+    char nama[50];
+    int harga;
+    int total;
+    int diskon;
+} Keranjang;
+
+Barang daftar_barang[MAX_ITEMS] = {
+    {1, "Buku Tulis", 5000},
+    {2, "Pensil", 2000},
+    {3, "Penghapus", 1000},
+    {4, "Penggaris", 1000},
+    {5, "Bujur", 500}
+};
+
+Keranjang keranjang[MAX_CART];
+int jumlah_barang = 0;
+
+// Fungsi untuk mencetak teks secara terpusat pada lebar tertentu
+void printCentered(const char *text, int width) {
+    int len = strlen(text);
+    int pad = (width - len) / 2;
+    for (int i = 0; i < pad; i++) {
+        printf(" ");
+    }
+    printf("%s\n", text);
+}
+
+void tampilkanDaftarBarang() {
+    printf("\n===================================\n");
+    printf("           DAFTAR BARANG           \n");
+    printf("===================================\n");
+    printf("No  Nama Barang        Harga\n");
+    printf("-----------------------------------\n");
+    for (int i = 0; i < MAX_ITEMS; i++) {
+        printf("%2d  %-15s  Rp %d\n", daftar_barang[i].no, daftar_barang[i].nama, daftar_barang[i].harga);
+    }
+    printf("===================================\n");
+    printf("99. Struk Pembayaran\n");
+    printf("77. Reset Pilihan\n");
+    printf("00. Keluar\n");
+    printf("===================================\n");
+}
+
+int hitungDiskon(int jumlah, int harga) {
+    if (jumlah >= 5) {
+        return harga * jumlah * 15 / 100;
+    } else if (jumlah >= 3) {
+        return harga * jumlah * 10 / 100;
+    }
+    return 0;
+}
+
+void tambahKeKeranjang(int no, int jumlah) {
+    for (int i = 0; i < MAX_ITEMS; i++) {
+        if (daftar_barang[i].no == no) {
+            keranjang[jumlah_barang].no = no;
+            keranjang[jumlah_barang].jumlah = jumlah;
+            strcpy(keranjang[jumlah_barang].nama, daftar_barang[i].nama);
+            keranjang[jumlah_barang].harga = daftar_barang[i].harga;
+            keranjang[jumlah_barang].total = jumlah * daftar_barang[i].harga;
+            keranjang[jumlah_barang].diskon = hitungDiskon(jumlah, daftar_barang[i].harga);
+            jumlah_barang++;
+            break;
+        }
+    }
+}
+
+void urutkanKeranjang() {
+    for (int i = 0; i < jumlah_barang - 1; i++) {
+        for (int j = i + 1; j < jumlah_barang; j++) {
+            if (keranjang[i].jumlah < keranjang[j].jumlah) {
+                Keranjang temp = keranjang[i];
+                keranjang[i] = keranjang[j];
+                keranjang[j] = temp;
+            }
+        }
+    }
+}
+
+void cetakStruk() {
+    // Definisikan garis dengan panjang 62 karakter khusus untuk struk
+    #define GARIS_EQ "=============================================================="
+    #define GARIS_DASH "--------------------------------------------------------------"
+
+    int totalHarga = 0, totalDiskon = 0, totalBayar;
+    int pembayaran, kembalian;
+
+    // Urutkan keranjang berdasarkan jumlah terbeli (descending)
+    urutkanKeranjang();
+
+    // Set locale untuk menampilkan nama hari dalam bahasa Indonesia
+    setlocale(LC_TIME, "id_ID.UTF-8");
+
+    // Mendapatkan waktu transaksi
+    time_t t;
+    struct tm *tm_info;
+    char waktuStr[100], idTransaksi[25];
+    time(&t);
+    tm_info = localtime(&t);
+    // Format waktu: NamaHari, dd-mm-YYYY HH:MM:SS
+    strftime(waktuStr, sizeof(waktuStr), "%A, %d-%m-%Y %H:%M:%S", tm_info);
+    // Buat ID transaksi dengan format: YYYYMMDDHHMMSS
+    strftime(idTransaksi, sizeof(idTransaksi), "%Y%m%d%H%M%S", tm_info);
+
+    // Tampilkan header struk dengan teks terpusat dan ID transaksi di sebelah kiri
+    printf("\n%s\n", GARIS_EQ);
+    printCentered("TOKO SKENSA", STRUK_WIDTH);
+    printCentered("Jl. HOS Cokroaminoto No.84", STRUK_WIDTH);
+    printCentered("Denpasar, Telp: 0816285791", STRUK_WIDTH);
+    // Cetak ID Transaksi di sebelah kiri
+    printf("ID Transaksi: %s\n", idTransaksi);
+    printf("%s\n", GARIS_EQ);
+
+    // Tampilkan rincian barang
+    printf("No  Jumlah  Nama Barang       Harga      Total      Diskon\n");
+    printf("%s\n", GARIS_DASH);
+    for (int i = 0; i < jumlah_barang; i++) {
+        printf("%-3d %-7d %-17s Rp %-9d Rp %-9d Rp %-9d\n",
+               keranjang[i].no,
+               keranjang[i].jumlah,
+               keranjang[i].nama,
+               keranjang[i].harga,
+               keranjang[i].total,
+               keranjang[i].diskon);
+        totalHarga += keranjang[i].total;
+        totalDiskon += keranjang[i].diskon;
+    }
+
+    totalBayar = totalHarga - totalDiskon;
+    printf("%s\n", GARIS_DASH);
+    printf("Total Harga  : Rp %d\n", totalHarga);
+    printf("Total Diskon : Rp %d\n", totalDiskon);
+    printf("Total Bayar  : Rp %d\n", totalBayar);
+    printf("%s\n", GARIS_DASH);
+
+    // Proses pembayaran (validasi agar uang bayar mencukupi)
+    do {
+        printf("Masukkan uang bayar: Rp ");
+        scanf("%d", &pembayaran);
+        if (pembayaran < totalBayar) {
+            printf("Uang tidak cukup, silahkan masukkan jumlah yang lebih besar.\n");
+        }
+    } while (pembayaran < totalBayar);
+    kembalian = pembayaran - totalBayar;
+    printf("Kembalian    : Rp %d\n", kembalian);
+
+    // Cetak waktu transaksi di bawah kembalian
+    printf("Waktu Transaksi: %s\n", waktuStr);
+    printf("%s\n", GARIS_EQ);
+
+    // Simpan struk ke file
+    char filename[50];
+    sprintf(filename, "struk_%s.txt", idTransaksi);
+    FILE *file = fopen(filename, "w");
+    if (file != NULL) {
+        fprintf(file, "%s\n", GARIS_EQ);
+        // Cetak header ke file secara terpusat (perhitungan sederhana)
+        fprintf(file, "%*s\n", (STRUK_WIDTH + (int)strlen("TOKO SKENSA"))/2, "TOKO SKENSA");
+        fprintf(file, "%*s\n", (STRUK_WIDTH + (int)strlen("Jl. HOS Cokroaminoto No.84"))/2, "Jl. HOS Cokroaminoto No.84");
+        fprintf(file, "%*s\n", (STRUK_WIDTH + (int)strlen("Denpasar, Telp: 0816285791"))/2, "Denpasar, Telp: 0816285791");
+        // Cetak ID Transaksi di sebelah kiri
+        fprintf(file, "ID Transaksi: %s\n", idTransaksi);
+        fprintf(file, "%s\n", GARIS_EQ);
+        fprintf(file, "No  Jumlah  Nama Barang       Harga      Total      Diskon\n");
+        fprintf(file, "%s\n", GARIS_DASH);
+        for (int i = 0; i < jumlah_barang; i++) {
+            fprintf(file, "%-3d %-7d %-17s Rp %-9d Rp %-9d Rp %-9d\n",
+                    keranjang[i].no,
+                    keranjang[i].jumlah,
+                    keranjang[i].nama,
+                    keranjang[i].harga,
+                    keranjang[i].total,
+                    keranjang[i].diskon);
+        }
+        fprintf(file, "%s\n", GARIS_DASH);
+        fprintf(file, "Total Harga  : Rp %d\n", totalHarga);
+        fprintf(file, "Total Diskon : Rp %d\n", totalDiskon);
+        fprintf(file, "Total Bayar  : Rp %d\n", totalBayar);
+        fprintf(file, "%s\n", GARIS_DASH);
+        fprintf(file, "Pembayaran   : Rp %d\n", pembayaran);
+        fprintf(file, "Kembalian    : Rp %d\n", kembalian);
+        // Cetak waktu transaksi di bawah pembayaran
+        fprintf(file, "Waktu Transaksi: %s\n", waktuStr);
+        fprintf(file, "%s\n", GARIS_EQ);
+        fclose(file);
+        printf("Struk telah disimpan sebagai %s\n", filename);
+    } else {
+        printf("Gagal menyimpan struk!\n");
+    }
+
+    printf("Tekan ENTER untuk melanjutkan...");
+    getchar();
+    getchar();
+}
+
+
+
+void resetKeranjang() {
+    jumlah_barang = 0;
+    printf("\n===================================\n");
+    printf("     KERANJANG TELAH DIRESET!      \n");
+    printf("===================================\n");
+}
+
+int main() {
+    int pilihan, jumlah;
+
+    while (1) {
+        tampilkanDaftarBarang();
+        printf("Masukkan pilihan: ");
+        scanf("%d", &pilihan);
+
+        if (pilihan == 0) {
+            printf("Terima kasih telah berbelanja!\n");
+            break;
+        } else if (pilihan == 99) {
+            cetakStruk();
+        } else if (pilihan == 77) {
+            resetKeranjang();
+        } else {
+            printf("Masukkan jumlah barang: ");
+            scanf("%d", &jumlah);
+            tambahKeKeranjang(pilihan, jumlah);
+        }
+    }
+
+    return 0;
+}

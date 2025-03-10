@@ -1,0 +1,20 @@
+1. Memilih "99" tanpa menambahkan barang.  
+2. Memilih "1" (Buku Tulis) sebanyak 2 kali, lalu "99" untuk mencetak struk.  
+3. Memilih "2" (Pensil) sebanyak 5 kali, lalu "99".  
+4. Memilih "3" (Penghapus) sebanyak 3 kali, lalu "99".  
+5. Memilih "4" (Penggaris) sebanyak 4 kali, lalu "99".  
+6. Memilih "5" (Bujur) sebanyak 1 kali, lalu "99".  
+7. Menampilkan struk dengan kombinasi beberapa barang berbeda.  
+8. Memilih "1" sebanyak 10, "2" sebanyak 10, lalu "99".  
+9. Memilih "3" sebanyak 20, lalu "99".  
+10. Memilih "4" sebanyak 30, lalu "99".  
+11. Menambahkan satu barang, lalu "99", kemudian menambahkan barang lagi dan "99".  
+12. Memilih "00" langsung tanpa transaksi.  
+13. Memilih "00" setelah menambahkan barang, tanpa mencetak struk.  
+14. Memilih "1", "3", "2" masing-masing satu kali, lalu "99".  
+15. Memilih semua barang satu kali, lalu "99".  
+16. Reset keranjang dengan "77", lalu menambahkan barang kembali.  
+17. Memilih "77" untuk mereset keranjang sebelum transaksi.  
+18. Membeli semua jenis barang sekaligus, dengan jumlah acak.  
+19. Menjalankan program pada waktu berbeda, memastikan struk menampilkan waktu yang sesuai.  
+20. Keluar dari program dengan memilih "0".

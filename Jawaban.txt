@@ -1,0 +1,8 @@
+1. kalau kalian buat sistem manajemen untuk kelas, yang dimana tidak diketahui jelas datanya, dan dapat add/drop dengan fitur rekapan data siswa, absensi. Struktur data apa yang akan kalian gunakan dan dalam bentuk statis/dinamis?
+
+2. Kalau kalian diminta buat sistem yang lebih besar skalanya, kayak sistem sekolah, kalian mendingan pake konsep prosedural atau OOP? alasannya apa
+
+JAWABAN:
+1. Linked list karena flexible dan dinamis, mudah menambahkan dan menghapus data
+
+2. OPP karena fleksible dan mudah dikembangkan, dapat mempersingkat kode dan reusable
